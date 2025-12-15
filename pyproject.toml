@@ -27,3 +27,8 @@ soep-preparation = { path = "soep-preparation", editable = true }
 python = "python"
 
 
+[tool.pytask.ini_options]
+paths = ["soep-preparation/src/soep_preparation"]
+pdbcls = "pdbp:Pdb"
+editor_url_scheme = "vscode"
+task_files = ["task_*.py", "task.py", "tasks.py"]
