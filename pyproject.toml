@@ -9,12 +9,16 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [tool.pixi.workspace]
-channels = ["https://prefix.dev/conda-forge"]
-platforms = ["linux-64"]
+channels = ["conda-forge"]
+platforms = ["linux-64", "osx-64", "osx-arm64", "win-64"]
 
 [tool.pixi.dependencies]
+pygraphviz = "*"
 python = "~=3.13.0"
-ttsim = { path = "ttsim", editable = true }
+
+[tool.pixi.pypi-dependencies]
+ttsim-backend = { path = "ttsim", editable = true }
+mettsim = {path = "ttsim/src_mettsim", editable = true}
 gettsim = { path = "gettsim", editable = true }
 gettsim-personas = { path = "gettsim-personas", editable = true }
 soep-preparation = { path = "soep-preparation", editable = true }
