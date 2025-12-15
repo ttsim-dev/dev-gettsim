@@ -1,0 +1,13 @@
+# Ignore the cloned package repositories in this meta-workspace
+ttsim/
+gettsim/
+gettsim-personas/
+soep-preparation/
+
+# Common local/IDE noise (kept minimal; each repo can have its own .gitignore)
+.DS_Store
+*.pyc
+__pycache__/
+.pixi/
+
+

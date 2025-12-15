@@ -1,0 +1,25 @@
+[project]
+name = "dev-gettsim"
+version = "0.1.0"
+description = "Pixi workspace for ttsim, gettsim, gettsim-personas, and soep-preparation."
+requires-python = ">=3.13"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.pixi.workspace]
+channels = ["https://prefix.dev/conda-forge"]
+platforms = ["linux-64"]
+
+[tool.pixi.dependencies]
+python = "~=3.13.0"
+ttsim = { path = "ttsim", editable = true }
+gettsim = { path = "gettsim", editable = true }
+gettsim-personas = { path = "gettsim-personas", editable = true }
+soep-preparation = { path = "soep-preparation", editable = true }
+
+[tool.pixi.tasks]
+python = "python"
+
+
