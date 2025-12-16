@@ -1,0 +1,71 @@
+---
+repos:
+  - repo: meta
+    hooks:
+      - id: check-hooks-apply
+      - id: check-useless-excludes
+      # - id: identity  # Prints all files passed to pre-commits. Debugging.
+  - repo: https://github.com/lyz-code/yamlfix
+    rev: 1.19.0
+    hooks:
+      - id: yamlfix
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: check-added-large-files
+        args: [--maxkb=10000]
+      - id: check-case-conflict
+      - id: check-merge-conflict
+      - id: check-vcs-permalinks
+      - id: check-yaml
+      - id: check-toml
+      - id: debug-statements
+      - id: end-of-file-fixer
+      - id: fix-byte-order-marker
+        types: [text]
+      - id: forbid-submodules
+      - id: mixed-line-ending
+        args: [--fix=lf]
+        description: Forces to replace line ending by the UNIX 'lf' character.
+      - id: no-commit-to-branch
+        args: [--branch, main]
+      - id: trailing-whitespace
+      - id: check-ast
+      - id: check-docstring-first
+  - repo: https://github.com/adrienverge/yamllint.git
+    rev: v1.37.1
+    hooks:
+      - id: yamllint
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.14.9
+    hooks:
+      - id: ruff-check
+        types_or: [python, jupyter]
+        args: [--fix]
+      - id: ruff-format
+        types_or: [python, jupyter]
+  - repo: https://github.com/executablebooks/mdformat
+    rev: 1.0.0
+    hooks:
+      - id: mdformat
+        additional_dependencies: [mdformat-gfm, mdformat-ruff]
+        args: [--wrap, '88']
+        files: (README.md|CHANGES.md|CODE_OF_CONDUCT.md)
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.19.1
+    hooks:
+      - id: mypy
+        args:
+          - --ignore-missing-imports
+          - --config=pyproject.toml
+          - --allow-redefinition-new
+          - --local-partial-types
+        additional_dependencies:
+          - types-PyYAML
+          - types-pytz
+          - numpy >= 2
+          - jaxtyping
+          - dags >= 0.4.1
+          - optree >= 0.16
+ci:
+  autoupdate_schedule: monthly

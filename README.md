@@ -1,17 +1,20 @@
 ## dev-gettsim Pixi workspace
 
-This directory contains a Pixi-based workspace that ties together the following projects:
+This directory contains a Pixi-based workspace that ties together the following
+projects:
 
 - [`ttsim`](https://github.com/ttsim-dev/ttsim)
 - [`gettsim`](https://github.com/ttsim-dev/gettsim)
 - [`gettsim-personas`](https://github.com/ttsim-dev/gettsim-personas)
 - [`soep-preparation`](https://github.com/OpenSourceEconomics/soep-preparation)
 
-The workspace is configured via `pyproject.toml` and uses Pixi for environment management.
+The workspace is configured via `pyproject.toml` and uses Pixi for environment
+management.
 
 ### Clone all repositories (SSH, copy-paste)
 
-Run the following in an empty directory where you want to keep the workspace (for example, this `dev-gettsim` directory):
+Run the following in an empty directory where you want to keep the workspace (for
+example, this `dev-gettsim` directory):
 
 ```bash
 git clone git@github.com:ttsim-dev/ttsim.git
@@ -40,7 +43,7 @@ dev-gettsim/
    pixi install
    ```
 
-2. **Use the workspace**
+1. **Use the workspace**
 
    For example, to start a Python REPL inside the Pixi environment:
 
@@ -48,10 +51,9 @@ dev-gettsim/
    pixi run python
    ```
 
-   Or to run a one-off check that the main packages import correctly (after cloning them):
+   Or to run a one-off check that the main packages import correctly (after cloning
+   them):
 
    ```bash
    pixi run python -c "import ttsim, gettsim"
    ```
-
-
