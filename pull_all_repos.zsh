@@ -11,10 +11,10 @@ set -euo pipefail
 
 script_dir="${0:a:h}"
 repos=(
+  "ttsim"
   "gettsim"
   "gettsim-personas"
   "soep-preparation"
-  "ttsim"
 )
 
 cd "$script_dir"

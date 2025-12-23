@@ -1,0 +1,22 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "ttsim"
+		},
+		{
+			"path": "gettsim"
+		},
+		{
+			"path": "gettsim-personas"
+		},
+		{
+			"path": "soep-preparation"
+		}
+	],
+	"settings": {
+		"explorer.excludeGitIgnore": true
+	}
+}
