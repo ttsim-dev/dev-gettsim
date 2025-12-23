@@ -90,7 +90,11 @@ ty = ["ty"]
 # ======================================================================================
 
 [tool.ty.environment]
-root = ["./ttsim", "./gettsim", "./gettsim-personas", "./soep-preparation"]
+root = ["."]
+
+[tool.ty.src]
+respect-ignore-files = false
+exclude = ["**/.pixi/"]
 
 [tool.ty.rules]
 invalid-return-type = "error"
