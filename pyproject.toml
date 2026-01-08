@@ -21,13 +21,13 @@ pytest-xdist = "*"
 
 [tool.pixi.pypi-dependencies]
 jaxtyping = "*"
-dags = { git = "https://github.com/opensourceeconomics/dags.git", branch = "py-3.14" }
+dags = ">=0.4.2"
 ttsim-backend = { path = "ttsim", editable = true }
 mettsim = {path = "ttsim/src_mettsim", editable = true}
 gettsim = { path = "gettsim", editable = true }
 gettsim-personas = { path = "gettsim-personas", editable = true }
 soep-preparation = { path = "soep-preparation", editable = true }
-pdbp = ">=1.7.1"
+pdbp = "*"
 
 # Features
 # --------------------------------------------------------------------------------------
@@ -41,10 +41,10 @@ jax = ">=0.8"
 
 [tool.pixi.feature.cuda]
 platforms = ["linux-64"]
-system-requirements = {cuda = "12"}
+system-requirements = {cuda = "13"}
 
 [tool.pixi.feature.cuda.target.linux-64.pypi-dependencies]
-jax = {version = ">=0.8", extras = ["cuda12"]}
+jax = {version = ">=0.8", extras = ["cuda13"]}
 
 [tool.pixi.feature.metal]
 platforms = ["osx-arm64"]
@@ -142,7 +142,7 @@ editor_url_scheme = "vscode"
 task_files = ["task_*.py", "task.py", "tasks.py"]
 
 [tool.pytest.ini_options]
-addopts = ["--pdbcls=pdbp:Pdb"]
+addopts = ["--pdbcls=pdbp:Pdb", "--import-mode=importlib"]
 filterwarnings = [
     "ignore:.*XMLParser*:DeprecationWarning",
     "ignore:.*'tree.iter()'*:PendingDeprecationWarning",
