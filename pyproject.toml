@@ -2,11 +2,15 @@
 name = "dev-gettsim"
 version = "0.1.0"
 description = "Pixi workspace for ttsim, gettsim, gettsim-personas, and soep-preparation."
-requires-python = ">=3.14"
+requires-python = ">=3.13"
 
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
+
+# ======================================================================================
+# Pixi configuration
+# ======================================================================================
 
 [tool.pixi.workspace]
 channels = ["conda-forge"]
@@ -16,8 +20,6 @@ platforms = ["linux-64", "osx-64", "osx-arm64", "win-64"]
 deepdiff = "*"
 ipykernel = "*"
 pygraphviz = "*"
-python = "~=3.14.0"
-pytest-xdist = "*"
 
 [tool.pixi.pypi-dependencies]
 jaxtyping = "*"
@@ -28,9 +30,6 @@ gettsim = { path = "gettsim", editable = true }
 gettsim-personas = { path = "gettsim-personas", editable = true }
 soep-preparation = { path = "soep-preparation", editable = true }
 pdbp = "*"
-
-# Features
-# --------------------------------------------------------------------------------------
 
 [tool.pixi.feature.jax]
 platforms = ["linux-64", "osx-arm64", "win-64"]
@@ -53,34 +52,41 @@ platforms = ["osx-arm64"]
 jax = ">=0.8"
 jax-metal = ">=0.1.1"
 
-[tool.pixi.feature.ty.pypi-dependencies]
+[tool.pixi.feature.py313.dependencies]
+python = "~=3.13.0"
+
+[tool.pixi.feature.py314.dependencies]
+python = "~=3.14.0"
+
+[tool.pixi.feature.tests.pypi-dependencies]
 ty = ">=0.0.9"
-types-PyYAML = "*"
-types-pytz = "*"
+pytest = "*"
+pytest-cov = "*"
+pytest-xdist = "*"
 
-# Tasks
-# --------------------------------------------------------------------------------------
+[tool.pixi.feature.tests.target.osx-64.tasks]
+ty = "ty check"
+tests = "dot -c && pytest" # dot -c needed for pygraphviz on macOS
 
-[tool.pixi.feature.test.tasks]
+[tool.pixi.feature.tests.target.osx-arm64.tasks]
+ty = "ty check"
+tests = "dot -c && pytest" # dot -c needed for pygraphviz on macOS
+
+[tool.pixi.feature.tests.target.linux-64.tasks]
+ty = "ty check"
 tests = "pytest"
 
-[tool.pixi.feature.jax.tasks]
-tests-jax = "pytest --backend=jax"
-
-[tool.pixi.feature.cuda.tasks]
-tests-jax = "pytest --backend=jax"
-
-[tool.pixi.feature.ty.tasks]
+[tool.pixi.feature.tests.target.win-64.tasks]
 ty = "ty check"
+tests = "pytest"
 
-# Environments
-# --------------------------------------------------------------------------------------
 
 [tool.pixi.environments]
-py314-cuda = ["test", "cuda"]
-py314-jax = ["test", "jax"]
-py314-metal = ["test", "metal"]
-ty = ["ty"]
+py313 = ["tests", "py313"]
+py314 = ["tests", "py314"]
+py314-jax = ["py314", "tests", "jax"]
+py314-cuda = ["py314", "tests", "cuda"]
+py314-metal = ["py314", "tests", "metal"]
 
 
 # ======================================================================================
