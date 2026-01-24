@@ -83,8 +83,37 @@ py314-metal = ["test", "metal"]
 ty = ["ty"]
 
 
+[tool.ruff]
+target-version = "py314"
+fix = true
+
+[tool.ruff.lint]
+select = ["ALL"]
+extend-ignore = [
+    "COM812", # Avoid conflicts with ruff-format
+    "EM101", # Exception must not use a string literal
+    "EM102", # Exception must not use an f-string literal
+    "F722", # https://docs.kidger.site/jaxtyping/faq/#flake8-or-ruff-are-throwing-an-error
+    "FBT001", # Boolean-typed positional argument in function definition
+    "FBT002", # Boolean default positional argument in function definition
+    "FIX002", # Line contains TODO -- Use stuff from TD area.
+    "ICN001", # numpy should be np, but different convention here.
+    "ISC001", # Avoid conflicts with ruff-format
+    "N999", # Allow non-ASCII characters in file names.
+    "PLC2401", # Allow non-ASCII characters in variable names.
+    "PLC2403", # Allow non-ASCII function names for imports.
+    "PLR0913", # Allow many arguments in function definitions.
+    "PLR5501", # elif not supported by vectorization converter for Jax
+    "TC002", # Move third-party import into a type-checking block
+    "TC003", # Move standard library import into a type-checking block
+    "TRY003", # Avoid specifying long messages outside the exception class
+]
+
 [tool.ruff.lint.per-file-ignores]
 "conftest.py" = ["ANN", "INP001"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
 
 # ======================================================================================
 # ty configuration
