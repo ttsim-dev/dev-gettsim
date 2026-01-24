@@ -2,7 +2,7 @@
 name = "dev-gettsim"
 version = "0.1.0"
 description = "Pixi workspace for ttsim, gettsim, gettsim-personas, and soep-preparation."
-requires-python = ">=3.13"
+requires-python = ">=3.14"
 
 [build-system]
 requires = ["hatchling"]
@@ -83,9 +83,14 @@ py314-metal = ["test", "metal"]
 ty = ["ty"]
 
 
+# ======================================================================================
+# Ruff configuration
+# ======================================================================================
+
 [tool.ruff]
-target-version = "py314"
+target-version = "py313"
 fix = true
+unsafe-fixes = false
 
 [tool.ruff.lint]
 select = ["ALL"]
@@ -108,12 +113,14 @@ extend-ignore = [
     "TC003", # Move standard library import into a type-checking block
     "TRY003", # Avoid specifying long messages outside the exception class
 ]
+exclude = []
 
 [tool.ruff.lint.per-file-ignores]
 "conftest.py" = ["ANN", "INP001"]
 
 [tool.ruff.lint.pydocstyle]
 convention = "google"
+
 
 # ======================================================================================
 # ty configuration
@@ -164,11 +171,9 @@ include = ["gettsim/docs/**"]
 unresolved-attribute = "ignore"
 
 
-[tool.pytask.ini_options]
-paths = ["soep-preparation/src/soep_preparation"]
-pdbcls = "pdbp:Pdb"
-editor_url_scheme = "vscode"
-task_files = ["task_*.py", "task.py", "tasks.py"]
+# ======================================================================================
+# pytest configuration
+# ======================================================================================
 
 [tool.pytest.ini_options]
 addopts = ["--pdbcls=pdbp:Pdb", "--import-mode=importlib"]

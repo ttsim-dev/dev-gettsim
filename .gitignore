@@ -9,3 +9,4 @@ soep-preparation/
 *.pyc
 __pycache__/
 .pixi/
+.vscode/
