@@ -157,17 +157,9 @@ unused-ignore-comment = "error"
 useless-overload-body = "error"
 
 [[tool.ty.overrides]]
-include = [ "ttsim/**" ]
-
-[[tool.ty.overrides]]
-include = [ "gettsim/**" ]
-
-[[tool.ty.overrides]]
-include = [ "gettsim/docs/**" ]
+include = [ "ttsim/**", "gettsim/**", "gettsim/docs/**" ]
 
 [tool.ty.overrides.rules]
-invalid-return-type = "ignore"
-
 invalid-return-type = "ignore"
 unresolved-attribute = "ignore"
 
