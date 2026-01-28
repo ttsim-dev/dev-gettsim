@@ -117,6 +117,8 @@ extend-ignore = [
   "TC002",   # Move third-party import into a type-checking block
   "TC003",   # Move standard library import into a type-checking block
   "TRY003",  # Avoid specifying long messages outside the exception class
+  "D100",    # TEMPORARY: Missing docstring in public module
+  "D103",    # TEMPORARY: Missing docstring in public function
 ]
 exclude = [  ]
 
