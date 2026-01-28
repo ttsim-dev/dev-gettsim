@@ -20,6 +20,7 @@ platforms = ["linux-64", "osx-64", "osx-arm64", "win-64"]
 deepdiff = "*"
 ipykernel = "*"
 pygraphviz = "*"
+prek = "*"
 
 [tool.pixi.pypi-dependencies]
 jaxtyping = "*"
