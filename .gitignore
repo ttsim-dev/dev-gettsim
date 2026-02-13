@@ -1,11 +1,28 @@
 # Ignore the cloned package repositories in this meta-workspace
-ttsim/
 gettsim/
 gettsim-personas/
 soep-preparation/
+ttsim/
 
-# Common local/IDE noise (kept minimal; each repo can have its own .gitignore)
+# Claude Code
+.claude/
+
+# IDE
+.idea/
+.vscode/
+
+# macOS
 .DS_Store
-*.pyc
-__pycache__/
+
+# pixi
 .pixi/
+
+# Python
+__pycache__/
+*.py[cod]
+
+# Ruff
+.ruff_cache/
+
+# Testing
+.pytest_cache/
