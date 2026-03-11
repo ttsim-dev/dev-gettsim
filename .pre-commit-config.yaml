@@ -6,7 +6,7 @@ repos:
       - id: check-useless-excludes
       # - id: identity  # Prints all files passed to pre-commits. Debugging.
   - repo: https://github.com/tox-dev/pyproject-fmt
-    rev: v2.16.0
+    rev: v2.16.2
     hooks:
       - id: pyproject-fmt
   - repo: https://github.com/lyz-code/yamlfix
@@ -17,7 +17,8 @@ repos:
     rev: v6.0.0
     hooks:
       - id: check-added-large-files
-        args: [--maxkb=10000]
+        args:
+          - --maxkb=10000
       - id: check-ast
       - id: check-case-conflict
       - id: check-docstring-first
@@ -28,26 +29,36 @@ repos:
       - id: debug-statements
       - id: end-of-file-fixer
       - id: fix-byte-order-marker
-        types: [text]
-      - id: forbid-submodules
+        types:
+          - text
       - id: mixed-line-ending
-        args: [--fix=lf]
+        args:
+          - --fix=lf
         description: Forces to replace line ending by the UNIX 'lf' character.
       - id: no-commit-to-branch
-        args: [--branch, main]
+        args:
+          - --branch
+          - main
       - id: trailing-whitespace
   - repo: https://github.com/adrienverge/yamllint.git
     rev: v1.38.0
     hooks:
       - id: yamllint
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.15.1
+    rev: v0.15.5
     hooks:
       - id: ruff-check
-        args: [--fix]
-        types_or: [jupyter, pyi, python]
+        args:
+          - --fix
+        types_or:
+          - jupyter
+          - pyi
+          - python
       - id: ruff-format
-        types_or: [jupyter, pyi, python]
+        types_or:
+          - jupyter
+          - pyi
+          - python
   - repo: https://github.com/executablebooks/mdformat
     rev: 1.0.0
     hooks:
@@ -56,7 +67,9 @@ repos:
           - mdformat-gfm
           - mdformat-gfm-alerts
           - mdformat-ruff
-        args: [--wrap, '88']
-        files: (CLAUDE\.md|README\.md|CHANGES\.md|CODE_OF_CONDUCT\.md)
+        args:
+          - --wrap
+          - '88'
+        files: (AGENTS\.md|CLAUDE\.md|README\.md|CHANGES\.md|CODE_OF_CONDUCT\.md|modules/.*\.md|profiles/.*\.md)
 ci:
   autoupdate_schedule: monthly

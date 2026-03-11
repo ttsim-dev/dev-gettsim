@@ -7,22 +7,47 @@ ttsim/
 # Claude Code
 .claude/
 
+# Distribution / packaging
+*.egg
+*.egg-info/
+*.manifest
+*.spec
+.eggs/
+.installed.cfg
+build/
+dist/
+MANIFEST
+sdist/
+wheels/
+
 # IDE
 .idea/
 .vscode/
+
+# Jupyter
+.ipynb_checkpoints/
 
 # macOS
 .DS_Store
 
 # pixi
 .pixi/
+node_modules/
 
 # Python
 __pycache__/
 *.py[cod]
+*.so
+*$py.class
 
 # Ruff
 .ruff_cache/
 
 # Testing
+.cache/
+.coverage
+.coverage.*
+.hypothesis/
 .pytest_cache/
+coverage.xml
+htmlcov/

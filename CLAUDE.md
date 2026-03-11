@@ -22,24 +22,28 @@ Each subdirectory has its own `CLAUDE.md` with project-specific guidance. Refer 
 ## Development Commands
 
 ```bash
-# Run all tests (specify environment due to ambiguity)
-pixi run -e py314-jax tests
+# Run all tests across all projects
+pixi run -e py314 tests
+
+# Run tests with JAX backend
+pixi run -e py314-jax tests-jax
 
 # Run tests for a specific project
-pixi run -e py314-jax tests ttsim/tests/
-pixi run -e py314-jax tests gettsim/src/gettsim/tests_germany/
-pixi run -e py314-jax tests gettsim-personas/tests/
+pixi run -e py314 tests ttsim/tests/
+pixi run -e py314 tests gettsim/src/gettsim/tests_germany/
+pixi run -e py314 tests gettsim-personas/tests/
+pixi run -e py314 tests soep-preparation/tests/
 
 # Run specific test
-pixi run -e py314-jax tests -k "test_end_to_end"
+pixi run -e py314 tests -k "test_end_to_end"
 
-# Type checking
-pixi run -e py314-jax ty
+# Type checking (all projects)
+pixi run ty
 
 # Quality checks (linting, formatting)
 prek run --all-files
 
-# Available environments: py313, py314, py314-jax, py314-cuda, py314-metal
+# Available environments: py314, py314-jax, py314-cuda, py314-metal, type-checking
 ```
 
 ## Command Rules
@@ -47,8 +51,7 @@ prek run --all-files
 Always use these command mappings:
 
 - **Python**: Use `pixi run python` instead of `python` or `python3`
-- **Type checker**: Use `pixi run -e py314-jax ty` instead of running ty/mypy/pyright
-  directly
+- **Type checker**: Use `pixi run ty` instead of running ty/mypy/pyright directly
 - **Tests**: Use `pixi run tests` instead of `pytest` directly
 - **Linting/formatting**: Use `prek run --all-files` instead of `ruff` directly
 - **All quality checks**: Use `prek run --all-files`
@@ -56,9 +59,9 @@ Always use these command mappings:
 Before finishing any task that modifies code, always run these three verification steps
 in order:
 
-1. `pixi run -e py314-jax ty` (type checker)
+1. `pixi run ty` (type checker)
 1. `prek run --all-files` (quality checks: linting, formatting, yaml, etc.)
-1. `pixi run -e py314-jax tests -n 7` (full test suite)
+1. `pixi run -e py314 tests -n 7` (full test suite)
 
 ## Key Architectural Points
 
