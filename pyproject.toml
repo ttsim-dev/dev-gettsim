@@ -6,9 +6,11 @@ requires = [ "hatchling" ]
 name = "dev-gettsim"
 version = "0.1.0"
 description = "Pixi workspace for ttsim, gettsim, gettsim-personas, and soep-preparation."
-requires-python = ">=3.13"
+requires-python = ">=3.11"
 classifiers = [
   "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
   "Programming Language :: Python :: 3.14",
 ]
@@ -55,6 +57,8 @@ expand_tables = [
   "tool.pixi.feature.tests.tasks",
   "tool.pixi.feature.type-checking.pypi-dependencies",
   "tool.pixi.feature.type-checking.tasks",
+  "tool.pixi.feature.type-checking-jax.pypi-dependencies",
+  "tool.pixi.feature.type-checking-jax.tasks",
   "tool.pixi.pypi-dependencies",
   "tool.pixi.tasks",
   "tool.pixi.workspace",
@@ -95,13 +99,23 @@ rules.deprecated = "error"
 rules.division-by-zero = "error"
 rules.ignore-comment-unknown-rule = "error"
 rules.ineffective-final = "error"
+rules.invalid-argument-type = "error"
 rules.invalid-enum-member-annotation = "error"
 rules.invalid-ignore-comment = "error"
 rules.invalid-legacy-positional-parameter = "error"
+rules.invalid-return-type = "error"
+rules.possibly-missing-attribute = "error"
+rules.possibly-missing-implicit-call = "error"
+rules.possibly-missing-import = "error"
 rules.possibly-missing-submodule = "error"
+rules.possibly-unresolved-reference = "error"
 rules.redundant-cast = "error"
+rules.undefined-reveal = "error"
+rules.unresolved-global = "error"
+rules.unsupported-base = "error"
 rules.unused-awaitable = "error"
 rules.unused-ignore-comment = "error"
+rules.useless-overload-body = "error"
 src.respect-ignore-files = false
 src.exclude = [ "**/.pixi/", "**/.claude/" ]
 [[tool.ty.overrides]]
@@ -135,6 +149,7 @@ py314-jax = [ "py314", "tests", "jax" ]
 py314-cuda = [ "py314", "tests", "cuda" ]
 py314-metal = [ "py314", "tests", "metal" ]
 type-checking = [ "py314", "type-checking" ]
+type-checking-jax = [ "py314", "type-checking-jax", "jax" ]
 [tool.pixi.feature.cuda]
 platforms = [ "linux-64" ]
 system-requirements = { cuda = "13" }
@@ -171,6 +186,10 @@ tests = "dot -c && pytest"  # dot -c needed for pygraphviz on macOS
 tests = "dot -c && pytest"  # dot -c needed for pygraphviz on macOS
 [tool.pixi.feature.tests.target.win-64.tasks]
 tests = "pytest"
+[tool.pixi.feature.type-checking-jax.pypi-dependencies]
+ty = ">=0.0.9"
+[tool.pixi.feature.type-checking-jax.tasks]
+ty-jax = "ty check"
 [tool.pixi.feature.type-checking.pypi-dependencies]
 ty = ">=0.0.9"
 [tool.pixi.feature.type-checking.tasks]
