@@ -90,28 +90,33 @@ ini_options.markers = [
 
 [tool.ty]
 environment.root = [ "." ]
-rules.invalid-return-type = "error"
 rules.ambiguous-protocol-member = "error"
 rules.deprecated = "error"
 rules.division-by-zero = "error"
 rules.ignore-comment-unknown-rule = "error"
-rules.invalid-argument-type = "error"
+rules.ineffective-final = "error"
+rules.invalid-enum-member-annotation = "error"
 rules.invalid-ignore-comment = "error"
-rules.possibly-missing-attribute = "error"
-rules.possibly-missing-implicit-call = "error"
-rules.possibly-missing-import = "error"
-rules.possibly-unresolved-reference = "error"
+rules.invalid-legacy-positional-parameter = "error"
+rules.possibly-missing-submodule = "error"
 rules.redundant-cast = "error"
-rules.undefined-reveal = "error"
-rules.unresolved-global = "error"
-rules.unsupported-base = "error"
+rules.unused-awaitable = "error"
 rules.unused-ignore-comment = "error"
-rules.useless-overload-body = "error"
 src.respect-ignore-files = false
-src.exclude = [ "**/.pixi/" ]
+src.exclude = [ "**/.pixi/", "**/.claude/" ]
 [[tool.ty.overrides]]
-include = [ "ttsim/**", "gettsim/**", "gettsim/docs/**" ]
+include = [ "ttsim/**" ]
+analysis.allowed-unresolved-imports = [ "jax", "jax.numpy", "jax.ops" ]
+rules.empty-body = "ignore"
 rules.invalid-return-type = "ignore"
+rules.invalid-type-form = "ignore"
+[[tool.ty.overrides]]
+include = [ "gettsim/**" ]
+rules.empty-body = "ignore"
+rules.invalid-return-type = "ignore"
+[[tool.ty.overrides]]
+include = [ "gettsim/docs/**" ]
+rules.invalid-argument-type = "ignore"
 rules.unresolved-attribute = "ignore"
 
 [tool.yamlfix]
