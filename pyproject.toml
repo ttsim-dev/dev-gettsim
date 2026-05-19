@@ -22,8 +22,6 @@ unsafe-fixes = false
 select = [ "ALL" ]
 extend-ignore = [
   "COM812",  # Avoid conflicts with ruff-format
-  "D100",    # TEMPORARY: Missing docstring in public module
-  "D103",    # TEMPORARY: Missing docstring in public function
   "EM101",   # Exception must not use a string literal
   "EM102",   # Exception must not use an f-string literal
   "F722",    # https://docs.kidger.site/jaxtyping/faq/#flake8-or-ruff-are-throwing-an-error
@@ -42,7 +40,7 @@ extend-ignore = [
   "TC003",   # Move standard library import into a type-checking block
   "TRY003",  # Avoid specifying long messages outside the exception class
 ]
-per-file-ignores."conftest.py" = [ "ANN", "INP001" ]
+per-file-ignores."conftest.py" = [ "ANN", "D", "INP001" ]
 pydocstyle.convention = "google"
 
 [tool.pyproject-fmt]
@@ -62,34 +60,6 @@ expand_tables = [
   "tool.pixi.pypi-dependencies",
   "tool.pixi.tasks",
   "tool.pixi.workspace",
-]
-
-[tool.pytest]
-ini_options.addopts = [ "--pdbcls=pdbp:Pdb", "--import-mode=importlib" ]
-ini_options.norecursedirs = [ ".pixi", "docs", "bld" ]
-ini_options.testpaths = [
-  "ttsim/tests",
-  "ttsim/src_mettsim/tests_middle_earth",
-  "gettsim/src/gettsim/tests_germany",
-  "gettsim-personas/tests",
-  "soep-preparation/tests",
-]
-ini_options.filterwarnings = [
-  "ignore:.*XMLParser*:DeprecationWarning",
-  "ignore:.*'tree.iter()'*:PendingDeprecationWarning",
-  "ignore:.*Sorting*:FutureWarning",
-  "ignore:The TerminalReporter.writer attribute is",
-  "ignore:Repeated execution of the test suite",
-  "ignore:Using or importing the ABCs from 'collections'",
-  "ignore:Explicitly requested dtype .*64 requested in zeros_like",
-]
-ini_options.markers = [
-  "wip: Tests that are work-in-progress.",
-  "unit: Flag for unit tests which target mainly a single function.",
-  "integration: Flag for integration tests which may comprise of multiple unit tests.",
-  "end_to_end: Flag for tests that cover the whole program.",
-  "skipif_jax: skip test if backend is jax",
-  "skipif_numpy: skip test if backend is numpy",
 ]
 
 [tool.ty]
@@ -132,6 +102,34 @@ rules.invalid-return-type = "ignore"
 include = [ "gettsim/docs/**" ]
 rules.invalid-argument-type = "ignore"
 rules.unresolved-attribute = "ignore"
+
+[tool.pytest]
+ini_options.addopts = [ "--pdbcls=pdbp:Pdb", "--import-mode=importlib" ]
+ini_options.norecursedirs = [ ".pixi", "docs", "bld" ]
+ini_options.testpaths = [
+  "ttsim/tests",
+  "ttsim/src_mettsim/tests_middle_earth",
+  "gettsim/src/gettsim/tests_germany",
+  "gettsim-personas/tests",
+  "soep-preparation/tests",
+]
+ini_options.filterwarnings = [
+  "ignore:.*XMLParser*:DeprecationWarning",
+  "ignore:.*'tree.iter()'*:PendingDeprecationWarning",
+  "ignore:.*Sorting*:FutureWarning",
+  "ignore:The TerminalReporter.writer attribute is",
+  "ignore:Repeated execution of the test suite",
+  "ignore:Using or importing the ABCs from 'collections'",
+  "ignore:Explicitly requested dtype .*64 requested in zeros_like",
+]
+ini_options.markers = [
+  "wip: Tests that are work-in-progress.",
+  "unit: Flag for unit tests which target mainly a single function.",
+  "integration: Flag for integration tests which may comprise of multiple unit tests.",
+  "end_to_end: Flag for tests that cover the whole program.",
+  "skipif_jax: skip test if backend is jax",
+  "skipif_numpy: skip test if backend is numpy",
+]
 
 [tool.yamlfix]
 line_length = 88
@@ -197,13 +195,15 @@ ty = "ty check"
 [tool.pixi.pypi-dependencies]
 # jax-datetime = { git = "https://github.com/google/jax-datetime.git" }
 jaxtyping = "*"
-dags = ">=0.4.2"
+dags = { git = "https://github.com/OpenSourceEconomics/dags.git", branch = "main" }
 ttsim-backend = { path = "ttsim", editable = true }
 mettsim = { path = "ttsim/src_mettsim", editable = true }
 gettsim = { path = "gettsim", editable = true }
 gettsim-personas = { path = "gettsim-personas", editable = true }
 soep-preparation = { path = "soep-preparation", editable = true }
 pdbp = "*"
+[tool.pixi.tasks]
+lint-all = { cmd = 'for d in gettsim gettsim-personas soep-preparation ttsim; do echo "=== $d ===" && (cd $d && prek run --all-files) || exit 1; done' }
 [tool.pixi.workspace]
 channels = [ "conda-forge" ]
 platforms = [ "linux-64", "osx-64", "osx-arm64", "win-64" ]
