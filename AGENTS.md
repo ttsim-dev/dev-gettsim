@@ -1,7 +1,6 @@
 @.ai-instructions/profiles/tier-a.md @.ai-instructions/modules/jax.md
-@.ai-instructions/modules/pandas.md @.ai-instructions/modules/optimagic.md
-@.ai-instructions/modules/plotting.md @.ai-instructions/modules/project-structure.md
-@.ai-instructions/modules/pytask.md @.ai-instructions/modules/ml-econometrics.md
+@.ai-instructions/modules/pandas.md @.ai-instructions/modules/plotting.md
+@.ai-instructions/modules/dags.md
 
 # dev-gettsim
 
