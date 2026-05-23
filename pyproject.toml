@@ -51,6 +51,13 @@ jax = ">=0.8"
 jax-metal = ">=0.1.1"
 [tool.pixi.feature.py314.dependencies]
 python = "~=3.14.0"
+[tool.pixi.feature.tests.activation.env]
+# Mirror the per-package test activation: every workspace test env runs
+# with all three claws on, so a local `pixi run -e py314 tests` matches
+# the CI matrix that activates the same gates per package.
+TTSIM_BEARTYPE_CLAW = "1"
+GETTSIM_BEARTYPE_CLAW = "1"
+GETTSIM_PERSONAS_BEARTYPE_CLAW = "1"
 [tool.pixi.feature.tests.pypi-dependencies]
 pytest = "*"
 pytest-cov = "*"
