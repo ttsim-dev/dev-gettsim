@@ -80,7 +80,10 @@ ty = ">=0.0.9"
 ty = "ty check"
 [tool.pixi.pypi-dependencies]
 # jax-datetime = { git = "https://github.com/google/jax-datetime.git" }
-jaxtyping = "*"
+# Track the fork's `fix/sentinel-cloudpickle` branch until jaxtyping 0.3.10
+# (patrick-kidger/jaxtyping#390) is released to PyPI. See `ttsim/pyproject.toml`
+# for the rationale.
+jaxtyping = { git = "https://github.com/hmgaudecker/jaxtyping", branch = "fix/sentinel-cloudpickle" }
 dags = { git = "https://github.com/OpenSourceEconomics/dags.git", branch = "main" }
 ttsim-backend = { path = "ttsim", editable = true }
 mettsim = { path = "ttsim/src_mettsim", editable = true }
