@@ -71,11 +71,11 @@ tests = "dot -c && pytest"  # dot -c needed for pygraphviz on macOS
 [tool.pixi.feature.tests.target.win-64.tasks]
 tests = "pytest"
 [tool.pixi.feature.type-checking-jax.pypi-dependencies]
-ty = ">=0.0.9"
+ty = "*"
 [tool.pixi.feature.type-checking-jax.tasks]
 ty-jax = "ty check"
 [tool.pixi.feature.type-checking.pypi-dependencies]
-ty = ">=0.0.9"
+ty = "*"
 [tool.pixi.feature.type-checking.tasks]
 ty = "ty check"
 [tool.pixi.pypi-dependencies]
