@@ -53,11 +53,12 @@ jax-metal = ">=0.1.1"
 python = "~=3.14.0"
 [tool.pixi.feature.tests.activation.env]
 # Mirror the per-package test activation: every workspace test env runs
-# with all three claws on, so a local `pixi run -e py314 tests` matches
-# the CI matrix that activates the same gates per package.
+# with both claws on, so a local `pixi run -e py314 tests` matches the CI
+# matrix that activates the same gates per package. gettsim-personas has its
+# own claw but reuses GETTSIM_BEARTYPE_CLAW (no dedicated switch), so these
+# two vars cover it too.
 TTSIM_BEARTYPE_CLAW = "1"
 GETTSIM_BEARTYPE_CLAW = "1"
-GETTSIM_PERSONAS_BEARTYPE_CLAW = "1"
 [tool.pixi.feature.tests.pypi-dependencies]
 pytest = "*"
 pytest-cov = "*"
@@ -142,6 +143,8 @@ expand_tables = [
 ]
 
 [tool.ty]
+src.exclude = [ "**/.claude/", "**/.pixi/" ]
+src.respect-ignore-files = false
 environment.root = [ "." ]
 rules.ambiguous-protocol-member = "error"
 rules.deprecated = "error"
@@ -165,8 +168,6 @@ rules.unsupported-base = "error"
 rules.unused-awaitable = "error"
 rules.unused-ignore-comment = "error"
 rules.useless-overload-body = "error"
-src.respect-ignore-files = false
-src.exclude = [ "**/.pixi/", "**/.claude/" ]
 [[tool.ty.overrides]]
 include = [ "ttsim/**" ]
 analysis.allowed-unresolved-imports = [ "jax", "jax.numpy", "jax.ops" ]
@@ -183,31 +184,31 @@ rules.invalid-argument-type = "ignore"
 rules.unresolved-attribute = "ignore"
 
 [tool.pytest]
-ini_options.addopts = [ "--pdbcls=pdbp:Pdb", "--import-mode=importlib" ]
-ini_options.norecursedirs = [ ".pixi", "docs", "bld" ]
 ini_options.testpaths = [
-  "ttsim/tests",
-  "ttsim/src_mettsim/tests_middle_earth",
-  "gettsim/src/gettsim/tests_germany",
   "gettsim-personas/tests",
+  "gettsim/src/gettsim/tests_germany",
   "soep-preparation/tests",
+  "ttsim/src_mettsim/tests_middle_earth",
+  "ttsim/tests",
 ]
-ini_options.filterwarnings = [
-  "ignore:.*XMLParser*:DeprecationWarning",
-  "ignore:.*'tree.iter()'*:PendingDeprecationWarning",
-  "ignore:.*Sorting*:FutureWarning",
-  "ignore:The TerminalReporter.writer attribute is",
-  "ignore:Repeated execution of the test suite",
-  "ignore:Using or importing the ABCs from 'collections'",
-  "ignore:Explicitly requested dtype .*64 requested in zeros_like",
-]
+ini_options.norecursedirs = [ ".pixi", "bld", "docs" ]
+ini_options.addopts = [ "--pdbcls=pdbp:Pdb", "--import-mode=importlib" ]
 ini_options.markers = [
-  "wip: Tests that are work-in-progress.",
-  "unit: Flag for unit tests which target mainly a single function.",
-  "integration: Flag for integration tests which may comprise of multiple unit tests.",
   "end_to_end: Flag for tests that cover the whole program.",
+  "integration: Flag for integration tests which may comprise of multiple unit tests.",
   "skipif_jax: skip test if backend is jax",
   "skipif_numpy: skip test if backend is numpy",
+  "unit: Flag for unit tests which target mainly a single function.",
+  "wip: Tests that are work-in-progress.",
+]
+ini_options.filterwarnings = [
+  "ignore:.*'tree.iter()'*:PendingDeprecationWarning",
+  "ignore:.*Sorting*:FutureWarning",
+  "ignore:.*XMLParser*:DeprecationWarning",
+  "ignore:Explicitly requested dtype .*64 requested in zeros_like",
+  "ignore:Repeated execution of the test suite",
+  "ignore:The TerminalReporter.writer attribute is",
+  "ignore:Using or importing the ABCs from 'collections'",
 ]
 
 [tool.yamlfix]
