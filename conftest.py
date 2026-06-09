@@ -1,14 +1,11 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from types import ModuleType
+from typing import Literal
 
 import pytest
 from ttsim.interface_dag_elements.backend import dnp as ttsim_dnp
 from ttsim.interface_dag_elements.backend import xnp as ttsim_xnp
-
-if TYPE_CHECKING:
-    from types import ModuleType
-    from typing import Literal
 
 
 def pytest_addoption(parser):
