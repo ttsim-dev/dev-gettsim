@@ -3,6 +3,7 @@ ttsim/
 gettsim/
 gettsim-personas/
 soep-preparation/
+gettsim-paper/
 
 # Common local/IDE noise (kept minimal; each repo can have its own .gitignore)
 .DS_Store
