@@ -59,6 +59,33 @@ repos:
           - jupyter
           - pyi
           - python
+  - repo: local
+    hooks:
+      - id: ty
+        name: ty (numpy backend)
+        # The workspace's subprojects are gitignored here, so the official
+        # ty-pre-commit hook (which only receives git-tracked changed files)
+        # would never see them. Run ty over the whole workspace instead,
+        # resolving third-party imports from the py314 env. Keep the pin in
+        # sync with the family's `ty-pre-commit` rev.
+        language: python
+        additional_dependencies:
+          - ty==0.0.49
+        entry: ty check --python .pixi/envs/py314
+        pass_filenames: false
+        always_run: true
+        require_serial: true
+      - id: ty-jax
+        name: ty (jax backend)
+        # Same `tool.ty` configuration; only the environment ty resolves
+        # third-party imports from is overridden to the jax env.
+        language: python
+        additional_dependencies:
+          - ty==0.0.49
+        entry: ty check --python .pixi/envs/py314-jax
+        pass_filenames: false
+        always_run: true
+        require_serial: true
   - repo: https://github.com/executablebooks/mdformat
     rev: 1.0.0
     hooks:
@@ -73,3 +100,8 @@ repos:
         files: (AGENTS\.md|CLAUDE\.md|README\.md|CHANGES\.md|CODE_OF_CONDUCT\.md|modules/.*\.md|profiles/.*\.md)
 ci:
   autoupdate_schedule: monthly
+  # pre-commit.ci blocks network access at hook runtime and has no pixi
+  # environments; type checking runs locally.
+  skip:
+    - ty
+    - ty-jax

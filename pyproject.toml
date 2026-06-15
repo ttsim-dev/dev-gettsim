@@ -25,8 +25,6 @@ py314 = [ "tests", "py314" ]
 py314-jax = [ "py314", "tests", "jax" ]
 py314-cuda = [ "py314", "tests", "cuda" ]
 py314-metal = [ "py314", "tests", "metal" ]
-type-checking = [ "py314", "type-checking" ]
-type-checking-jax = [ "py314", "type-checking-jax", "jax" ]
 [tool.pixi.feature.cuda]
 platforms = [ "linux-64" ]
 system-requirements = { cuda = "13" }
@@ -71,14 +69,6 @@ tests = "dot -c && pytest"  # dot -c needed for pygraphviz on macOS
 tests = "dot -c && pytest"  # dot -c needed for pygraphviz on macOS
 [tool.pixi.feature.tests.target.win-64.tasks]
 tests = "pytest"
-[tool.pixi.feature.type-checking-jax.pypi-dependencies]
-ty = "*"
-[tool.pixi.feature.type-checking-jax.tasks]
-ty-jax = "ty check"
-[tool.pixi.feature.type-checking.pypi-dependencies]
-ty = "*"
-[tool.pixi.feature.type-checking.tasks]
-ty = "ty check"
 [tool.pixi.pypi-dependencies]
 # jax-datetime = { git = "https://github.com/google/jax-datetime.git" }
 jaxtyping = "*"
@@ -133,18 +123,19 @@ expand_tables = [
   "tool.pixi.environments",
   "tool.pixi.feature.tests.pypi-dependencies",
   "tool.pixi.feature.tests.tasks",
-  "tool.pixi.feature.type-checking.pypi-dependencies",
-  "tool.pixi.feature.type-checking.tasks",
-  "tool.pixi.feature.type-checking-jax.pypi-dependencies",
-  "tool.pixi.feature.type-checking-jax.tasks",
   "tool.pixi.pypi-dependencies",
   "tool.pixi.tasks",
   "tool.pixi.workspace",
 ]
 
 [tool.ty]
-src.exclude = [ "**/.claude/", "**/.pixi/" ]
+# `dags/` may be a local clone of the dags dependency (pulled from git, not the
+# local path); it is not a workspace member, so keep it out of the ty scan.
+src.exclude = [ "**/.claude/", "**/.pixi/", "dags/" ]
 src.respect-ignore-files = false
+# Resolve third-party imports from the py314 pixi env (run `pixi install` once).
+# The ty-jax pre-commit hook overrides this on the command line for the jax env.
+environment.python = ".pixi/envs/py314"
 environment.root = [ "." ]
 rules.ambiguous-protocol-member = "error"
 rules.deprecated = "error"
