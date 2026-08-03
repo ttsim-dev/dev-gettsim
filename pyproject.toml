@@ -117,7 +117,6 @@ pydocstyle.convention = "google"
 column_width = 88
 max_supported_python = "3.14"
 table_format = "long"
-collapse_tables = [ "tool.hatch", "tool.pytest", "tool.pytask", "tool.ty" ]
 expand_tables = [
   "tool.pixi.dependencies",
   "tool.pixi.environments",
@@ -127,6 +126,7 @@ expand_tables = [
   "tool.pixi.tasks",
   "tool.pixi.workspace",
 ]
+collapse_tables = [ "tool.hatch", "tool.pytask", "tool.pytest", "tool.ty" ]
 
 [tool.ty]
 # `dags/` may be a local clone of the dags dependency (pulled from git, not the
@@ -165,10 +165,12 @@ analysis.allowed-unresolved-imports = [ "jax", "jax.numpy", "jax.ops" ]
 rules.empty-body = "ignore"
 rules.invalid-return-type = "ignore"
 rules.invalid-type-form = "ignore"
+
 [[tool.ty.overrides]]
 include = [ "gettsim/**" ]
 rules.empty-body = "ignore"
 rules.invalid-return-type = "ignore"
+
 [[tool.ty.overrides]]
 include = [ "gettsim/docs/**" ]
 rules.invalid-argument-type = "ignore"
