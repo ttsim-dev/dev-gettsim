@@ -25,6 +25,7 @@ py314 = [ "tests", "py314" ]
 py314-jax = [ "py314", "tests", "jax" ]
 py314-cuda = [ "py314", "tests", "cuda" ]
 py314-metal = [ "py314", "tests", "metal" ]
+tests-jax-pro-313 = { features = [ "tests-jax-pro-313" ], no-default-feature = true }
 [tool.pixi.feature.cuda]
 platforms = [ "linux-64" ]
 system-requirements = { cuda = "13" }
@@ -49,6 +50,42 @@ jax = ">=0.8"
 jax-metal = ">=0.1.1"
 [tool.pixi.feature.py314.dependencies]
 python = "~=3.14.0"
+[tool.pixi.feature.tests-jax-pro-313]
+# The default feature includes soep-preparation, which requires Python 3.14.
+# Keep this Python 3.13 environment self-contained and limited to the projects
+# whose declared Python support includes 3.13.
+platforms = [ "linux-64" ]
+[tool.pixi.feature.tests-jax-pro-313.activation.env]
+TTSIM_BEARTYPE_CLAW = "1"
+GETTSIM_BEARTYPE_CLAW = "1"
+[tool.pixi.feature.tests-jax-pro-313.dependencies]
+pygraphviz = "*"
+python = "~=3.13.0"
+[tool.pixi.feature.tests-jax-pro-313.pypi-dependencies]
+cloudpickle = ">=3"
+dags = ">=0.6"
+flatten-dict = "*"
+flexcache = "*"
+flexparser = "*"
+gettsim = { path = "gettsim", editable = true }
+gettsim-personas = { path = "gettsim-personas", editable = true }
+jax = ">=0.8"
+jaxtyping = ">=0.3.10"
+mettsim = { path = "ttsim/src_mettsim", editable = true }
+numpy-groupies = "*"
+pandas = ">=3"
+pdbp = "*"
+pint = "~=0.25.0"
+portion = "*"
+pytest = "*"
+pytest-cov = "*"
+pytest-profiling = "*"
+pytest-xdist = "*"
+ttsim-backend = { path = "ttsim", editable = true }
+wadler-lindig = "*"
+[tool.pixi.feature.tests-jax-pro-313.tasks]
+tests = "pytest --ignore=soep-preparation"
+tests-jax = "pytest --backend=jax --ignore=soep-preparation"
 [tool.pixi.feature.tests.activation.env]
 # Mirror the per-package test activation: every workspace test env runs
 # with both claws on, so a local `pixi run -e py314 tests` matches the CI
