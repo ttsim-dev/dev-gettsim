@@ -7,7 +7,8 @@
 ## Overview
 
 This is a [pixi](https://pixi.sh) workspace containing four related projects for the
-German tax and transfer microsimulation system:
+German tax and transfer microsimulation system, each a git submodule pinned to a
+specific commit:
 
 - **ttsim** (`ttsim/`) - Core computation engine with DAG-based architecture supporting
   NumPy and JAX backends
