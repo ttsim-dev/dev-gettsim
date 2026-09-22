@@ -19,12 +19,20 @@ classifiers = [
 
 [tool.pixi.workspace]
 channels = [ "conda-forge" ]
-platforms = [ "linux-64", "osx-64", "osx-arm64", "win-64" ]
+platforms = [
+  "linux-64",
+  "osx-64",
+  "osx-arm64",
+  "win-64",
+  { name = "linux-64-cuda13", platform = "linux-64", cuda = "13" },
+]
 [tool.pixi.dependencies]
 deepdiff = "*"
 ipykernel = "*"
 pygraphviz = "*"
 prek = "*"
+# soep-preparation takes scikit-learn from conda-forge, not its pypi metadata.
+scikit-learn = ">=1.9.0,<2"
 [tool.pixi.pypi-dependencies]
 # jax-datetime = { git = "https://github.com/google/jax-datetime.git" }
 jaxtyping = "*"
@@ -38,8 +46,7 @@ pdbp = "*"
 [tool.pixi.tasks]
 lint-all = { cmd = 'for d in gettsim gettsim-personas soep-preparation ttsim; do echo "=== $d ===" && (cd $d && prek run --all-files) || exit 1; done' }
 [tool.pixi.feature.cuda]
-platforms = [ "linux-64" ]
-system-requirements = { cuda = "13" }
+platforms = [ "linux-64-cuda13" ]
 [tool.pixi.feature.cuda.target.linux-64.pypi-dependencies]
 jax = { version = ">=0.8", extras = [ "cuda13" ] }
 [tool.pixi.feature.cuda.target.linux-64.tasks]
@@ -176,6 +183,12 @@ analysis.allowed-unresolved-imports = [ "jax", "jax.numpy", "jax.ops" ]
 rules.empty-body = "ignore"
 rules.invalid-return-type = "ignore"
 rules.invalid-type-form = "ignore"
+
+# Mirrors ttsim's own override: these monkey-patch suppressions are needed
+# under the jax backend only, so the numpy backend reports them as unused.
+[[tool.ty.overrides]]
+include = [ "ttsim/conftest.py", "ttsim/src/ttsim/_jaxtyping_patch.py" ]
+rules.unused-ignore-comment = "ignore"
 
 [[tool.ty.overrides]]
 include = [ "gettsim/**" ]
