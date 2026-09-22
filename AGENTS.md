@@ -92,3 +92,8 @@ runtime, so it must stay consistent with the individual projects' constraints.
 
 The workspace uses `--import-mode=importlib` to handle test files with identical names
 across projects. This is configured in the root `pyproject.toml`.
+
+The `tests` and `tests-jax` tasks run `run_tests.py`, which starts one pytest process
+per project: ttsim and gettsim-personas both import from a top-level `tests` package,
+and a single process can only hold one of them. Path arguments select the projects; all
+other arguments are forwarded to every pytest call.

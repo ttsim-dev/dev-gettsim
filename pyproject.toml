@@ -50,17 +50,17 @@ platforms = [ "linux-64-cuda13" ]
 [tool.pixi.feature.cuda.target.linux-64.pypi-dependencies]
 jax = { version = ">=0.8", extras = [ "cuda13" ] }
 [tool.pixi.feature.cuda.target.linux-64.tasks]
-tests-jax = "pytest --backend=jax"
+tests-jax = "python run_tests.py --backend=jax"
 [tool.pixi.feature.jax]
 platforms = [ "linux-64", "osx-arm64", "win-64" ]
 [tool.pixi.feature.jax.pypi-dependencies]
 jax = ">=0.8"
 [tool.pixi.feature.jax.target.linux-64.tasks]
-tests-jax = "pytest --backend=jax"
+tests-jax = "python run_tests.py --backend=jax"
 [tool.pixi.feature.jax.target.osx-arm64.tasks]
-tests-jax = "dot -c && pytest --backend=jax"
+tests-jax = "dot -c && python run_tests.py --backend=jax"
 [tool.pixi.feature.jax.target.win-64.tasks]
-tests-jax = "pytest --backend=jax"
+tests-jax = "python run_tests.py --backend=jax"
 [tool.pixi.feature.metal]
 platforms = [ "osx-arm64" ]
 [tool.pixi.feature.metal.target.osx-arm64.pypi-dependencies]
@@ -81,13 +81,13 @@ pytest = "*"
 pytest-cov = "*"
 pytest-xdist = "*"
 [tool.pixi.feature.tests.target.linux-64.tasks]
-tests = "pytest"
+tests = "python run_tests.py"
 [tool.pixi.feature.tests.target.osx-64.tasks]
-tests = "dot -c && pytest"  # dot -c needed for pygraphviz on macOS
+tests = "dot -c && python run_tests.py"  # dot -c needed for pygraphviz on macOS
 [tool.pixi.feature.tests.target.osx-arm64.tasks]
-tests = "dot -c && pytest"  # dot -c needed for pygraphviz on macOS
+tests = "dot -c && python run_tests.py"  # dot -c needed for pygraphviz on macOS
 [tool.pixi.feature.tests.target.win-64.tasks]
-tests = "pytest"
+tests = "python run_tests.py"
 [tool.pixi.environments]
 py314 = [ "tests", "py314" ]
 py314-jax = [ "py314", "tests", "jax" ]
