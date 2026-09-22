@@ -6,7 +6,7 @@ repos:
       - id: check-useless-excludes
       # - id: identity  # Prints all files passed to pre-commits. Debugging.
   - repo: https://github.com/tox-dev/pyproject-fmt
-    rev: v2.25.0
+    rev: v2.29.4
     hooks:
       - id: pyproject-fmt
   - repo: https://github.com/lyz-code/yamlfix
@@ -45,7 +45,7 @@ repos:
     hooks:
       - id: yamllint
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.15.19
+    rev: v0.16.8
     hooks:
       - id: ruff-check
         args:
@@ -59,29 +59,26 @@ repos:
           - jupyter
           - pyi
           - python
-  - repo: local
+  - repo: https://github.com/astral-sh/ty-pre-commit
+    rev: v0.0.83
     hooks:
       - id: ty
         name: ty (numpy backend)
-        # The workspace's subprojects are gitignored here, so the official
-        # ty-pre-commit hook (which only receives git-tracked changed files)
-        # would never see them. Run ty over the whole workspace instead,
-        # resolving third-party imports from the py314 env. Keep the pin in
-        # sync with the family's `ty-pre-commit` rev.
-        language: python
+        # Run ty directly so import resolution uses `[tool.ty] environment.python`.
+        # Keep this dependency pin aligned with the hook revision above.
+        entry: ty check
         additional_dependencies:
-          - ty==0.0.49
-        entry: ty check --python .pixi/envs/py314
-        pass_filenames: false
-        always_run: true
-        require_serial: true
+          - ty==0.0.83
+  - repo: local
+    hooks:
       - id: ty-jax
         name: ty (jax backend)
         # Same `tool.ty` configuration; only the environment ty resolves
-        # third-party imports from is overridden to the jax env.
+        # third-party imports from is overridden to the jax env. Keep the pin in
+        # sync with the `ty-pre-commit` rev above.
         language: python
         additional_dependencies:
-          - ty==0.0.49
+          - ty==0.0.83
         entry: ty check --python .pixi/envs/py314-jax
         pass_filenames: false
         always_run: true
@@ -97,11 +94,65 @@ repos:
         args:
           - --wrap
           - '88'
-        files: (AGENTS\.md|CLAUDE\.md|README\.md|CHANGES\.md|CODE_OF_CONDUCT\.md|modules/.*\.md|profiles/.*\.md)
+        files: (AGENTS\.md|README\.md|CHANGES\.md|CODE_OF_CONDUCT\.md|modules/.*\.md|profiles/.*\.md)
+  - repo: https://github.com/codespell-project/codespell
+    rev: v2.4.3
+    hooks:
+      - id: codespell
+        additional_dependencies:
+          - tomli
+  - repo: local
+    hooks:
+      # Runs at pre-commit stage and fails if the config declares pre-push hooks
+      # that this clone never installed — otherwise they look active and silently
+      # never fire.
+      - id: pre-push-hooks-installed
+        name: pre-push hooks are installed in this clone
+        entry: .ai-instructions/hooks/check_pre_push_installed.py
+        language: script
+        pass_filenames: false
+        always_run: true
+      # `--check` re-solves and compares without writing, so it cannot dirty the
+      # worktree. pre-push, not pre-commit: a mid-branch commit may legitimately
+      # lag the lock, but a push with a stale lock burns a CI cycle.
+      - id: pixi-lock-check
+        name: pixi.lock is in sync with the manifest
+        entry: pixi lock --check
+        language: system
+        pass_filenames: false
+        files: ^(pyproject\.toml|pixi\.toml|pixi\.lock)$
+        stages:
+          - pre-push
+      - id: no-hardcoded-user-paths
+        name: no hardcoded user-specific absolute paths
+        language: pygrep
+        entry: (/home/[A-Za-z0-9_.-]+/|/Users/[A-Za-z0-9_.-]+/|[A-Za-z]:\\Users\\)
+        types_or:
+          - python
+          - toml
+      - id: no-section-separator-comments
+        name: no decorative section-separator comments
+        language: pygrep
+        entry: ^\s*#\s*[-=#_*]{10,}\s*$
+        types:
+          - python
+      # Catches the labelled forms only — PR/issue numbers, `E<n>`/`F<n>`
+      # finding labels, `round-<n>`, `pre-fix`. Prose that rehearses history
+      # without a label stays a review responsibility.
+      - id: no-internal-references
+        name: no references a reader cannot reach from the checkout
+        language: pygrep
+        entry: (?:^|[\s(\[])\#[0-9]{2,5}\b(?!\.[0-9])|(?i:\b(?:round|wave)-[0-9]+\b)|(?i:\b(?:audit|review|finding|witness|defect|bug|fix|guard)\s+)(?:finding\s+)?[EF][0-9]{1,2}\b|\b[EF][0-9]{1,2}(?i:\s+(?:fix|guard|bug|defect|witness|signature|regression|finding|audit)\b)|(?:^|\s)\((?:the\s+)?(?!(?:F8|F16|F32|F64)\b)[EF][0-9]{1,2}['’]?(?:\s*[,/]\s*[EF][0-9]{1,2}['’]?)*(?:[,)\s])|(?i:\b(?:pre|post)-fix\b)
+        types:
+          - python
 ci:
   autoupdate_schedule: monthly
   # pre-commit.ci blocks network access at hook runtime and has no pixi
-  # environments; type checking runs locally.
+  # environments or pixi binary; type checking and the lock check run locally.
+  # `pre-push-hooks-installed` asks about the local clone and runs a script from
+  # the `.ai-instructions` submodule, which pre-commit.ci does not clone.
   skip:
     - ty
     - ty-jax
+    - pixi-lock-check
+    - pre-push-hooks-installed
