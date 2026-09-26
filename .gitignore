@@ -1,9 +1,5 @@
-# Ignore the cloned package repositories in this meta-workspace
-gettsim/
-gettsim-personas/
-soep-preparation/
+# Clone of the paper repository (not a submodule)
 gettsim-paper/
-ttsim/
 
 # Claude Code
 .claude/

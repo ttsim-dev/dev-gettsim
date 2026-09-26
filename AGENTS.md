@@ -7,7 +7,8 @@
 ## Overview
 
 This is a [pixi](https://pixi.sh) workspace containing four related projects for the
-German tax and transfer microsimulation system:
+German tax and transfer microsimulation system, each a git submodule pinned to a
+specific commit:
 
 - **ttsim** (`ttsim/`) - Core computation engine with DAG-based architecture supporting
   NumPy and JAX backends
@@ -17,8 +18,8 @@ German tax and transfer microsimulation system:
   and exploration
 - **soep-preparation** (`soep-preparation/`) - Data preparation for SOEP survey data
 
-Each subdirectory has its own `CLAUDE.md` with project-specific guidance. Refer to
-`ttsim/CLAUDE.md` and `gettsim/CLAUDE.md` for detailed architecture and conventions.
+Each subdirectory has its own `AGENTS.md` with project-specific guidance. Refer to
+`ttsim/AGENTS.md` and `gettsim/AGENTS.md` for detailed architecture and conventions.
 
 ## Build & Test
 
@@ -38,16 +39,16 @@ pixi run -e py314 tests soep-preparation/tests/
 # Run specific test
 pixi run -e py314 tests -k "test_end_to_end"
 
-# Type checking (all projects)
-pixi run ty
+# Type checking (all projects; ty runs as a prek hook)
+prek run ty --all-files
 
 # Type checking with JAX backend
-pixi run ty-jax
+prek run ty-jax --all-files
 
-# Quality checks (linting, formatting)
+# Quality checks (linting, formatting, type checking)
 prek run --all-files
 
-# Available environments: py314, py314-jax, py314-cuda, py314-metal, type-checking, type-checking-jax
+# Available environments: py314, py314-jax, py314-cuda, py314-metal
 ```
 
 ## Command Rules
@@ -55,16 +56,17 @@ prek run --all-files
 Always use these command mappings:
 
 - **Python**: Use `pixi run python` instead of `python` or `python3`
-- **Type checker**: Use `pixi run ty` instead of running ty/mypy/pyright directly
+- **Type checker**: Use `prek run ty --all-files` instead of running ty/mypy/pyright
+  directly
 - **Tests**: Use `pixi run tests` instead of `pytest` directly
 - **Linting/formatting**: Use `prek run --all-files` instead of `ruff` directly
 - **All quality checks**: Use `prek run --all-files`
 
-Before finishing any task that modifies code, always run these three verification steps
-in order:
+Before finishing any task that modifies code, always run these two verification steps in
+order:
 
-1. `pixi run ty` (type checker)
-1. `prek run --all-files` (quality checks: linting, formatting, yaml, etc.)
+1. `prek run --all-files` (quality checks: type checking, linting, formatting, yaml,
+   etc.)
 1. `pixi run -e py314 tests -n 7` (full test suite)
 
 ## Architecture
@@ -91,3 +93,8 @@ runtime, so it must stay consistent with the individual projects' constraints.
 
 The workspace uses `--import-mode=importlib` to handle test files with identical names
 across projects. This is configured in the root `pyproject.toml`.
+
+The `tests` and `tests-jax` tasks run `run_tests.py`, which starts one pytest process
+per project: ttsim and gettsim-personas both import from a top-level `tests` package,
+and a single process can only hold one of them. Path arguments select the projects; all
+other arguments are forwarded to every pytest call.
