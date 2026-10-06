@@ -9,6 +9,7 @@ Sources, each for what it alone knows:
 
 - `research.md`: the rule, the regimes, the citations, the "Decisions".
 - `test-cases.md`: where each case's expected values come from.
+- `policy-cases.md`: the case files, and which are published or hand-derived.
 - `git diff main...HEAD` plus the working tree, inside the `gettsim/` submodule: what was actually built. Where diff and
   dossier disagree, the diff is what the PR does; say so in the description.
 
