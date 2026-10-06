@@ -1,8 +1,9 @@
 # Clone of the paper repository (not a submodule)
 gettsim-paper/
 
-# Claude Code
-.claude/
+# Claude Code (skills are shared, everything else is local)
+.claude/*
+!.claude/skills/
 
 # Distribution / packaging
 *.egg
