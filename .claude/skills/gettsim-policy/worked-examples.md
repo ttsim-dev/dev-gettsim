@@ -1,11 +1,12 @@
-# Test-case brief
+# Worked-examples brief
 
 Find published **worked examples** for the rule in `<dossier>/research.md` and write
-them to `<dossier>/test-cases.md`. You search and report; the repository stays
+them to `<dossier>/worked-examples.md`. You search and report; the repository stays
 untouched outside the dossier.
 
 A worked example is a calculation with concrete inputs and a concrete result,
-published by someone other than GETTSIM. Best first:
+published by someone other than GETTSIM. A calculation you derive from the statute
+yourself is not one: it is a gap. Best first:
 
 1. authorities applying the rule: DRV Gemeinsame Rechtliche Anweisungen,
    Rundschreiben of the Spitzenverbände, Fachliche Weisungen of the BA, BMF-Schreiben,
