@@ -97,7 +97,7 @@ repos:
         args:
           - --wrap
           - '88'
-        files: (AGENTS\.md|CLAUDE\.md|README\.md|CHANGES\.md|CODE_OF_CONDUCT\.md|modules/.*\.md|profiles/.*\.md)
+        files: (AGENTS\.md|README\.md|CHANGES\.md|CODE_OF_CONDUCT\.md|modules/.*\.md|profiles/.*\.md)
 ci:
   autoupdate_schedule: monthly
   # pre-commit.ci blocks network access at hook runtime and has no pixi

@@ -17,8 +17,8 @@ German tax and transfer microsimulation system:
   and exploration
 - **soep-preparation** (`soep-preparation/`) - Data preparation for SOEP survey data
 
-Each subdirectory has its own `CLAUDE.md` with project-specific guidance. Refer to
-`ttsim/CLAUDE.md` and `gettsim/CLAUDE.md` for detailed architecture and conventions.
+Each subdirectory has its own `AGENTS.md` with project-specific guidance. Refer to
+`ttsim/AGENTS.md` and `gettsim/AGENTS.md` for detailed architecture and conventions.
 
 ## Build & Test
 
