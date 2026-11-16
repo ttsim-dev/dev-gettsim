@@ -47,7 +47,7 @@ pixi run ty-jax
 # Quality checks (linting, formatting)
 prek run --all-files
 
-# Available environments: py314, py314-jax, py314-cuda, py314-metal, type-checking, type-checking-jax
+# Available environments: py314, py314-jax, py314-cuda, type-checking, type-checking-jax
 ```
 
 ## Command Rules

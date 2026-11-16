@@ -20,11 +20,11 @@ deepdiff = "*"
 ipykernel = "*"
 pygraphviz = "*"
 prek = "*"
+scikit-learn = ">=1.9.0,<2"
 [tool.pixi.environments]
 py314 = [ "tests", "py314" ]
 py314-jax = [ "py314", "tests", "jax" ]
 py314-cuda = [ "py314", "tests", "cuda" ]
-py314-metal = [ "py314", "tests", "metal" ]
 [tool.pixi.feature.cuda]
 platforms = [ "linux-64" ]
 system-requirements = { cuda = "13" }
@@ -42,11 +42,6 @@ tests-jax = "pytest --backend=jax"
 tests-jax = "dot -c && pytest --backend=jax"
 [tool.pixi.feature.jax.target.win-64.tasks]
 tests-jax = "pytest --backend=jax"
-[tool.pixi.feature.metal]
-platforms = [ "osx-arm64" ]
-[tool.pixi.feature.metal.target.osx-arm64.pypi-dependencies]
-jax = ">=0.8"
-jax-metal = ">=0.1.1"
 [tool.pixi.feature.py314.dependencies]
 python = "~=3.14.0"
 [tool.pixi.feature.tests.activation.env]
