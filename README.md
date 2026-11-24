@@ -6,34 +6,33 @@ projects:
 - [`ttsim`](https://github.com/ttsim-dev/ttsim)
 - [`gettsim`](https://github.com/ttsim-dev/gettsim)
 - [`gettsim-personas`](https://github.com/ttsim-dev/gettsim-personas)
-- [`soep-preparation`](https://github.com/OpenSourceEconomics/soep-preparation)
+- [`soep-preparation`](https://github.com/ttsim-dev/soep-preparation)
 
 The workspace is configured via `pyproject.toml` and uses Pixi for environment
 management.
 
-### Clone all repositories (SSH, copy-paste)
+### Clone the workspace
 
-Run the following in an empty directory where you want to keep the workspace (for
-example, this `dev-gettsim` directory):
+The four projects are git submodules pinned to specific commits. Clone everything at
+once:
 
 ```bash
-git clone git@github.com:ttsim-dev/ttsim.git
-git clone git@github.com:ttsim-dev/gettsim.git
-git clone git@github.com:ttsim-dev/gettsim-personas.git
-git clone git@github.com:ttsim-dev/soep-preparation.git
+git clone --recursive git@github.com:ttsim-dev/dev-gettsim.git
 ```
 
-After cloning, your layout should look like:
+In an existing checkout, fetch the pinned commits with:
 
-```text
-dev-gettsim/
-  pyproject.toml
-  README.md
-  ttsim/
-  gettsim/
-  gettsim-personas/
-  soep-preparation/
+```bash
+git submodule update --init
 ```
+
+To pull the latest state of each project's current branch:
+
+```bash
+git submodule foreach git pull
+```
+
+Commit the updated pins in `dev-gettsim` when the combination should be shared.
 
 ### Using Pixi
 

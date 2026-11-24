@@ -1,3 +1,15 @@
 [submodule ".ai-instructions"]
 	path = .ai-instructions
 	url = https://github.com/OpenSourceEconomics/ai-instructions.git
+[submodule "ttsim"]
+	path = ttsim
+	url = https://github.com/ttsim-dev/ttsim.git
+[submodule "gettsim"]
+	path = gettsim
+	url = https://github.com/ttsim-dev/gettsim.git
+[submodule "gettsim-personas"]
+	path = gettsim-personas
+	url = https://github.com/ttsim-dev/gettsim-personas.git
+[submodule "soep-preparation"]
+	path = soep-preparation
+	url = https://github.com/ttsim-dev/soep-preparation.git
