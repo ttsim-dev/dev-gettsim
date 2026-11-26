@@ -48,7 +48,7 @@ prek run ty-jax --all-files
 # Quality checks (linting, formatting, type checking)
 prek run --all-files
 
-# Available environments: py314, py314-jax, py314-cuda, py314-metal
+# Available environments: py314, py314-jax, py314-cuda
 ```
 
 ## Command Rules
@@ -84,8 +84,8 @@ order:
 
 ## Python Version
 
-The root workspace sets `requires-python = ">=3.11"` to match the most permissive
-sub-project (ttsim, gettsim, gettsim-personas all require `>=3.11`; soep-preparation
+The root workspace sets `requires-python = ">=3.12"` to match the most permissive
+sub-project (ttsim, gettsim, gettsim-personas all require `>=3.12`; soep-preparation
 requires `>=3.14`). The `ty` type checker uses this to determine what's valid at
 runtime, so it must stay consistent with the individual projects' constraints.
 

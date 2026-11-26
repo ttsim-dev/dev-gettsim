@@ -8,10 +8,9 @@ version = "0.1.0"
 description = """\
   Pixi workspace for ttsim, gettsim, gettsim-personas, and soep-preparation.\
   """
-requires-python = ">=3.11"
+requires-python = ">=3.12"
 classifiers = [
   "Programming Language :: Python :: 3 :: Only",
-  "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
   "Programming Language :: Python :: 3.14",
@@ -36,7 +35,7 @@ scikit-learn = ">=1.9.0,<2"
 [tool.pixi.pypi-dependencies]
 # jax-datetime = { git = "https://github.com/google/jax-datetime.git" }
 jaxtyping = "*"
-dags = { git = "https://github.com/OpenSourceEconomics/dags.git", branch = "main" }
+dags = ">=0.7.0"
 ttsim-backend = { path = "ttsim", editable = true }
 mettsim = { path = "ttsim/src_mettsim", editable = true }
 gettsim = { path = "gettsim", editable = true }
@@ -61,11 +60,6 @@ tests-jax = "python run_tests.py --backend=jax"
 tests-jax = "dot -c && python run_tests.py --backend=jax"
 [tool.pixi.feature.jax.target.win-64.tasks]
 tests-jax = "python run_tests.py --backend=jax"
-[tool.pixi.feature.metal]
-platforms = [ "osx-arm64" ]
-[tool.pixi.feature.metal.target.osx-arm64.pypi-dependencies]
-jax = ">=0.8"
-jax-metal = ">=0.1.1"
 [tool.pixi.feature.py314.dependencies]
 python = "~=3.14.0"
 [tool.pixi.feature.tests.activation.env]
@@ -92,7 +86,6 @@ tests = "python run_tests.py"
 py314 = [ "tests", "py314" ]
 py314-jax = [ "py314", "tests", "jax" ]
 py314-cuda = [ "py314", "tests", "cuda" ]
-py314-metal = [ "py314", "tests", "metal" ]
 
 [tool.ruff]
 fix = true
@@ -148,9 +141,17 @@ collapse_tables = [ "tool.hatch", "tool.pytask", "tool.pytest", "tool.ty" ]
 
 [tool.ty]
 src.respect-ignore-files = false
-# `dags/` may be a local clone of the dags dependency (pulled from git, not the
-# local path); it is not a workspace member, so keep it out of the ty scan.
-src.exclude = [ "**/.claude/", "**/.pixi/", "dags/" ]
+# `dags/` and `workshop-2026/` may be local clones of other repositories; they are
+# not workspace members (dags is installed from PyPI), so keep them out of the ty
+# scan. The `.ai-instructions` hook scripts import tools that exist only in their
+# pre-commit environments.
+src.exclude = [
+  "**/.ai-instructions/",
+  "**/.claude/",
+  "**/.pixi/",
+  "dags/",
+  "workshop-2026/",
+]
 # Resolve third-party imports from the py314 pixi env (run `pixi install` once).
 # The ty-jax pre-commit hook overrides this on the command line for the jax env.
 environment.python = ".pixi/envs/py314"
@@ -158,13 +159,12 @@ environment.root = [ "." ]
 rules.ambiguous-protocol-member = "error"
 rules.deprecated = "error"
 rules.division-by-zero = "error"
-rules.ignore-comment-unknown-rule = "error"
 rules.ineffective-final = "error"
 rules.invalid-argument-type = "error"
 rules.invalid-enum-member-annotation = "error"
+rules.invalid-explicit-return = "error"
 rules.invalid-ignore-comment = "error"
 rules.invalid-legacy-positional-parameter = "error"
-rules.invalid-return-type = "error"
 rules.possibly-missing-attribute = "error"
 rules.possibly-missing-implicit-call = "error"
 rules.possibly-missing-import = "error"
@@ -172,6 +172,7 @@ rules.possibly-missing-submodule = "error"
 rules.possibly-unresolved-reference = "error"
 rules.redundant-cast = "error"
 rules.undefined-reveal = "error"
+rules.unknown-rule-in-ignore-comment = "error"
 rules.unresolved-global = "error"
 rules.unsupported-base = "error"
 rules.unused-awaitable = "error"
@@ -180,8 +181,8 @@ rules.useless-overload-body = "error"
 [[tool.ty.overrides]]
 include = [ "ttsim/**" ]
 analysis.allowed-unresolved-imports = [ "jax", "jax.numpy", "jax.ops" ]
-rules.empty-body = "ignore"
-rules.invalid-return-type = "ignore"
+rules.invalid-implicit-return-in-function-with-stub-body = "ignore"
+rules.invalid-explicit-return = "ignore"
 rules.invalid-type-form = "ignore"
 
 # Mirrors ttsim's own override: these monkey-patch suppressions are needed
@@ -192,13 +193,13 @@ rules.unused-ignore-comment = "ignore"
 
 [[tool.ty.overrides]]
 include = [ "gettsim/**" ]
-rules.empty-body = "ignore"
-rules.invalid-return-type = "ignore"
+rules.invalid-implicit-return-in-function-with-stub-body = "ignore"
+rules.invalid-explicit-return = "ignore"
 
 [[tool.ty.overrides]]
 include = [ "gettsim/docs/**" ]
 rules.invalid-argument-type = "ignore"
-rules.unresolved-attribute = "ignore"
+rules.missing-attribute = "ignore"
 
 [tool.pytest]
 ini_options.testpaths = [

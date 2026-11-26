@@ -6,7 +6,7 @@ repos:
       - id: check-useless-excludes
       # - id: identity  # Prints all files passed to pre-commits. Debugging.
   - repo: https://github.com/tox-dev/pyproject-fmt
-    rev: v2.29.4
+    rev: v2.31.2
     hooks:
       - id: pyproject-fmt
   - repo: https://github.com/lyz-code/yamlfix
@@ -45,7 +45,7 @@ repos:
     hooks:
       - id: yamllint
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.16.8
+    rev: v0.17.6
     hooks:
       - id: ruff-check
         args:
@@ -60,7 +60,7 @@ repos:
           - pyi
           - python
   - repo: https://github.com/astral-sh/ty-pre-commit
-    rev: v0.0.83
+    rev: v0.0.109
     hooks:
       - id: ty
         name: ty (numpy backend)
@@ -68,7 +68,7 @@ repos:
         # Keep this dependency pin aligned with the hook revision above.
         entry: ty check
         additional_dependencies:
-          - ty==0.0.83
+          - ty==0.0.109
   - repo: local
     hooks:
       - id: ty-jax
@@ -78,7 +78,7 @@ repos:
         # sync with the `ty-pre-commit` rev above.
         language: python
         additional_dependencies:
-          - ty==0.0.83
+          - ty==0.0.109
         entry: ty check --python .pixi/envs/py314-jax
         pass_filenames: false
         always_run: true
